@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		508EE14A195C8F1100C9F2E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 508EE149195C8F1100C9F2E9 /* Foundation.framework */; };
 		508EE14D195C8F1100C9F2E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 508EE14C195C8F1100C9F2E9 /* main.m */; };
-		508EE151195C8F1100C9F2E9 /* create_ram_disk.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 508EE150195C8F1100C9F2E9 /* create_ram_disk.1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,7 +18,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				508EE151195C8F1100C9F2E9 /* create_ram_disk.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -29,8 +27,6 @@
 		508EE146195C8F1100C9F2E9 /* create-ram-disk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "create-ram-disk"; sourceTree = BUILT_PRODUCTS_DIR; };
 		508EE149195C8F1100C9F2E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		508EE14C195C8F1100C9F2E9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		508EE14F195C8F1100C9F2E9 /* create-ram-disk-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "create-ram-disk-Prefix.pch"; sourceTree = "<group>"; };
-		508EE150195C8F1100C9F2E9 /* create_ram_disk.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = create_ram_disk.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +44,7 @@
 		508EE13D195C8F1100C9F2E9 = {
 			isa = PBXGroup;
 			children = (
-				508EE14B195C8F1100C9F2E9 /* create-ram-disk */,
+				508EE14C195C8F1100C9F2E9 /* main.m */,
 				508EE148195C8F1100C9F2E9 /* Frameworks */,
 				508EE147195C8F1100C9F2E9 /* Products */,
 			);
@@ -68,24 +64,6 @@
 				508EE149195C8F1100C9F2E9 /* Foundation.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		508EE14B195C8F1100C9F2E9 /* create-ram-disk */ = {
-			isa = PBXGroup;
-			children = (
-				508EE14C195C8F1100C9F2E9 /* main.m */,
-				508EE150195C8F1100C9F2E9 /* create_ram_disk.1 */,
-				508EE14E195C8F1100C9F2E9 /* Supporting Files */,
-			);
-			path = "create-ram-disk";
-			sourceTree = "<group>";
-		};
-		508EE14E195C8F1100C9F2E9 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				508EE14F195C8F1100C9F2E9 /* create-ram-disk-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -219,8 +197,6 @@
 		508EE155195C8F1100C9F2E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "create-ram-disk/create-ram-disk-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -228,8 +204,6 @@
 		508EE156195C8F1100C9F2E9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "create-ram-disk/create-ram-disk-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
