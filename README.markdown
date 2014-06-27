@@ -24,3 +24,6 @@ found [here](https://github.com/iKenndac/create-ram-disk/blob/master/LICENSE.mar
 
   * `-size` The size of the RAM disk. Value must be a nonzero integer followed
     by `MB` or `GB`, such as `500MB` or `2GB`.
+
+  * `-wait` A positive number of seconds to wait for `/Volumes` to become
+    available. Can be helpful if executing at startup.

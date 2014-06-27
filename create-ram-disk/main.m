@@ -36,6 +36,32 @@ NSInteger blockCountForSizeString(NSString *sizeString) {
 	return [[sizeString substringToIndex:sizeString.length - 2] integerValue] * 2000;
 }
 
+NSInteger waitCountForString(NSString *string) {
+	return [string integerValue];
+}
+
+BOOL checkVolumesAvailableAndWriteable(NSInteger waitCount) {
+
+	if (checkVolumesAvailable() && checkVolumesWriteable()) {
+		return true;
+	}
+
+	NSInteger waits = 0;
+
+	while (waits < waitCount) {
+		printf("WARNING: /Volumes not available. Waiting…\n");
+		sleep(1);
+		waits++;
+
+		if (checkVolumesAvailable() && checkVolumesWriteable()) {
+			return true;
+		}
+	}
+
+	printf("ERROR: /Volumes not available.\n");
+	return false;
+}
+
 BOOL createRamDiskWithBlockCount(NSInteger blocks, NSString **outPath) {
 
 	if (blocks == 0) {
@@ -126,14 +152,22 @@ void printUsage() {
 	printf("WARNING: The RAM disk's contents will be lost if the disk is\n");
 	printf("unmounted or the computer is shut down or restarted.\n\n");
 
-	printf("Usage: %s -name <RAM disk name> -size <size>\n\n", processName.UTF8String);
+	printf("Usage: %s -name <RAM disk name> -size <size>\n", processName.UTF8String);
+	printf("       %s [-wait <seconds>]\n\n", [@"" stringByPaddingToLength:processName.length
+																withString: @" "
+														   startingAtIndex:0].UTF8String);
 
 	printf("  -name   The name of the RAM disk. Will be used as the mount\n");
 	printf("          point and the volume's label.\n\n");
 
 	printf("  -size   The size of the RAM disk. Value must be a nonzero\n");
 	printf("          integer followed by 'MB' or 'GB', such as '500MB'\n");
-	printf("          or '2GB'.");
+	printf("          or '2GB'.\n\n");
+
+	printf("  -wait   A positive number of seconds to wait for /Volumes\n");
+	printf("          to become available. Can be helpful if executing\n");
+	printf("          at startup.");
+
 	printf("\n\n");
 }
 
@@ -146,22 +180,22 @@ int main(int argc, const char * argv[])
 
 	    NSString *ramDiskName = [[NSUserDefaults standardUserDefaults] valueForKey:@"name"];
 		NSString *ramDiskSizeString = [[NSUserDefaults standardUserDefaults] valueForKey:@"size"];
+		NSString *waitCountString = [[NSUserDefaults standardUserDefaults] valueForKey:@"wait"];
 		NSString *ramDiskMountPoint = [NSString stringWithFormat:@"/Volumes/%@", ramDiskName];
 
-		if (ramDiskName.length == 0 || !checkRamDiskSizeStringIsValid(ramDiskSizeString)) {
+		NSInteger waitCount = waitCountForString(waitCountString);
+
+		if (ramDiskName.length == 0 || !checkRamDiskSizeStringIsValid(ramDiskSizeString) ||
+			(waitCountString != nil && waitCount == 0) ||
+			waitCount <= 0) {
 			printUsage();
 			exit(EXIT_FAILURE);
 		}
 
 		// ---- Check if system is ready (/Volumes might not exist early in boot process) ----
 
-		if (!checkVolumesAvailable()) {
-			printf("ERROR: /Volumes not present.\n");
-			exit(EXIT_FAILURE);
-		}
-
-		if (!checkVolumesWriteable()) {
-			printf("ERROR: /Volumes not writeable.\n");
+		if (!checkVolumesAvailableAndWriteable(waitCount)) {
+			// ^ Prints its own error output
 			exit(EXIT_FAILURE);
 		}
 
