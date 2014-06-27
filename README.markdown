@@ -17,7 +17,7 @@ found [here](https://github.com/iKenndac/create-ram-disk/blob/master/LICENSE.mar
 
 ## Usage ##
 
-`$ create-ram-disk -name <RAM disk name> -size <size>`
+`$ create-ram-disk -name <RAM disk name> -size <size> [-wait <seconds>]`
 
   * `-name` The name of the RAM disk. Will be used as the mount point and the
     volume's label.
