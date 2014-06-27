@@ -15,7 +15,7 @@ BOOL fileExistsAtPath(NSString *path) {
 
 BOOL checkRamDiskSizeStringIsValid(NSString *sizeString) {
 	return (sizeString.length > 2) &&
-	([sizeString hasSuffix:@"MB"] || [sizeString hasSuffix:@"GB"]) &&
+	([[sizeString uppercaseString] hasSuffix:@"MB"] || [[sizeString uppercaseString] hasSuffix:@"GB"]) &&
 	([[sizeString substringToIndex:sizeString.length - 2] integerValue] > 0);
 }
 
