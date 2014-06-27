@@ -33,7 +33,15 @@ NSInteger blockCountForSizeString(NSString *sizeString) {
 		return 0;
 	}
 
-	return [[sizeString substringToIndex:sizeString.length - 2] integerValue] * 2000;
+	double megabytes = [[sizeString substringToIndex:sizeString.length - 2] doubleValue];
+
+	if ([[sizeString uppercaseString] hasSuffix:@"GB"]) {
+		megabytes *= 1000.0;
+	}
+
+	// Blocks are 512 bytes
+	NSInteger blocksInAMb = ceil((1000.0 * 1000.0) / 512.0);
+	return megabytes * blocksInAMb;
 }
 
 NSInteger waitCountForString(NSString *string) {
