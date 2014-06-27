@@ -16,7 +16,7 @@ BOOL fileExistsAtPath(NSString *path) {
 BOOL checkRamDiskSizeStringIsValid(NSString *sizeString) {
 	return (sizeString.length > 2) &&
 	([[sizeString uppercaseString] hasSuffix:@"MB"] || [[sizeString uppercaseString] hasSuffix:@"GB"]) &&
-	([[sizeString substringToIndex:sizeString.length - 2] integerValue] > 0);
+	([[sizeString substringToIndex:sizeString.length - 2] doubleValue] > 0);
 }
 
 BOOL checkVolumesAvailable() {
@@ -27,7 +27,7 @@ BOOL checkVolumesWriteable() {
 	return [[NSFileManager defaultManager] isWritableFileAtPath:@"/Volumes/"];
 }
 
-NSInteger blockCountForSizeString(NSString *sizeString) {
+double megabytesForSizeString(NSString *sizeString) {
 
 	if (!checkRamDiskSizeStringIsValid(sizeString)) {
 		return 0;
@@ -39,9 +39,18 @@ NSInteger blockCountForSizeString(NSString *sizeString) {
 		megabytes *= 1000.0;
 	}
 
+	return megabytes;
+}
+
+NSInteger blockCountForSizeString(NSString *sizeString) {
+
+	if (!checkRamDiskSizeStringIsValid(sizeString)) {
+		return 0;
+	}
+
 	// Blocks are 512 bytes
 	NSInteger blocksInAMb = ceil((1000.0 * 1000.0) / 512.0);
-	return megabytes * blocksInAMb;
+	return megabytesForSizeString(sizeString) * blocksInAMb;
 }
 
 NSInteger waitCountForString(NSString *string) {
@@ -199,6 +208,11 @@ int main(int argc, const char * argv[])
 			(waitCountString != nil && waitCount == 0) ||
 			waitCount < 0) {
 			printUsage();
+			exit(EXIT_FAILURE);
+		}
+
+		if (megabytesForSizeString(ramDiskSizeString) < 1.0) {
+			printf("ERROR: RAM disk size must be greater than 1MB.\n");
 			exit(EXIT_FAILURE);
 		}
 
