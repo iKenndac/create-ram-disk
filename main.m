@@ -193,6 +193,8 @@ int main(int argc, const char * argv[])
 
 		NSInteger waitCount = waitCountForString(waitCountString);
 
+		setbuf(stdout, NULL);
+
 		if (ramDiskName.length == 0 || !checkRamDiskSizeStringIsValid(ramDiskSizeString) ||
 			(waitCountString != nil && waitCount == 0) ||
 			waitCount < 0) {
