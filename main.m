@@ -187,7 +187,7 @@ int main(int argc, const char * argv[])
 
 		if (ramDiskName.length == 0 || !checkRamDiskSizeStringIsValid(ramDiskSizeString) ||
 			(waitCountString != nil && waitCount == 0) ||
-			waitCount <= 0) {
+			waitCount < 0) {
 			printUsage();
 			exit(EXIT_FAILURE);
 		}
